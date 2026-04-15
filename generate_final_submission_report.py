@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
-from PIL import Image as PILImage
+from PIL import Image as PILImage, ImageDraw, ImageFont
 from docx import Document
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
@@ -36,6 +36,9 @@ OUTPUT_PDF = ROOT / "SMART_LOGISTICS_MANAGEMENT_SYSTEM_FINAL_SUBMISSION.pdf"
 OUTPUT_DOCX = ROOT / "SMART_LOGISTICS_MANAGEMENT_SYSTEM_FINAL_SUBMISSION.docx"
 SVG_ARCHITECTURE = ROOT / "report-assets" / "mvc-architecture.svg"
 PNG_ARCHITECTURE = ROOT / "report-assets" / "mvc-architecture-report.png"
+GENERATED_ARCHITECTURE = ROOT / "report-assets" / "mvc-architecture-generated.png"
+ORIGINAL_DOCX_HEALTH = ROOT / "report-assets" / "original-docx-media" / "image1.png"
+ORIGINAL_DOCX_WORKBENCH = ROOT / "report-assets" / "original-docx-media" / "image2.png"
 
 
 TEAM_MEMBERS = [
@@ -89,10 +92,15 @@ CORE_FILES = [
 SCREENSHOTS = [
     ("Browser dashboard overview", ROOT / "report-assets" / "dashboard-running.png", "Live servlet-backed dashboard interface."),
     ("Dashboard CRUD operations", ROOT / "report-assets" / "dashboard-crud-before-delete.png", "Shipment management form and summary cards."),
+    ("JavaFX shipment loading output", ROOT / "report-assets" / "javafx-output-load.png", "JavaFX desktop output showing shipment cards and live statistics."),
+    ("JavaFX create shipment form", ROOT / "report-assets" / "javafx-output-create-form.png", "JavaFX form used to create new shipment records."),
+    ("JavaFX demand prediction output", ROOT / "report-assets" / "javafx-output-prediction.png", "JavaFX machine learning demand prediction view."),
+    ("JavaFX anomaly detection output", ROOT / "report-assets" / "javafx-output-anomaly.png", "JavaFX anomaly detection view for delayed shipments."),
     ("Shipment API list endpoint", ROOT / "report-assets" / "chrome-shipments-live.png", "Servlet response for all shipment records."),
     ("Forecast endpoint output", ROOT / "report-assets" / "chrome-forecast-live.png", "Demand prediction returned through the ML servlet."),
     ("Anomaly endpoint output", ROOT / "report-assets" / "chrome-anomalies-live.png", "Delayed shipment anomalies surfaced by the analytics module."),
-    ("Database evidence", ROOT / "report-assets" / "workbench-live-text.png", "MySQL Workbench showing persistent shipment records."),
+    ("Backend health endpoint", ORIGINAL_DOCX_HEALTH, "Backend root response showing endpoint availability and system metadata."),
+    ("Database evidence", ORIGINAL_DOCX_WORKBENCH, "MySQL Workbench showing the original persisted shipment dataset used for review evidence."),
     ("JavaFX desktop client", ROOT / "report-assets" / "javafx-running.png", "Desktop interface consuming the same backend APIs."),
     ("Dashboard after delete", ROOT / "report-assets" / "dashboard-after-delete.png", "Frontend state after servlet-backed deletion flow."),
 ]
@@ -112,13 +120,16 @@ TEAM_PORTFOLIOS = [
         "screenshots": [
             ("Dashboard interface", ROOT / "report-assets" / "dashboard-running.png", "Browser dashboard showing the main project interface."),
             ("Dashboard CRUD workflow", ROOT / "report-assets" / "dashboard-crud-before-delete.png", "Shipment creation and monitoring flow on the web interface."),
-            ("JavaFX desktop client", ROOT / "report-assets" / "javafx-running.png", "Desktop interface built for the same project backend."),
+            ("JavaFX shipment loading output", ROOT / "report-assets" / "javafx-output-load.png", "Shipment listing and statistics inside the JavaFX client."),
+            ("JavaFX create shipment form", ROOT / "report-assets" / "javafx-output-create-form.png", "Desktop form for shipment creation in JavaFX."),
+            ("JavaFX demand prediction output", ROOT / "report-assets" / "javafx-output-prediction.png", "Demand forecast shown inside the JavaFX interface."),
+            ("JavaFX anomaly detection output", ROOT / "report-assets" / "javafx-output-anomaly.png", "Anomaly results presented in the JavaFX desktop interface."),
         ],
         "data_rows": [
             ["Primary UI channels", "Web dashboard and JavaFX desktop client"],
             ["User-facing capabilities", "Create, view, edit, delete, stats refresh, forecast trigger, anomaly trigger"],
             ["Main integration style", "Frontend requests to shared servlet endpoints over HTTP"],
-            ["Submission evidence", "Dashboard screenshots, JavaFX screenshot, UI code excerpts"],
+            ["Submission evidence", "Dashboard screenshots, four JavaFX outputs, UI code excerpts"],
         ],
     },
     {
@@ -322,7 +333,109 @@ def code_block(text: str, style: ParagraphStyle) -> XPreformatted:
     return XPreformatted(html.escape(text.rstrip()), style)
 
 
+def load_font(size: int, bold: bool = False):
+    font_candidates = [
+        "/System/Library/Fonts/Supplemental/Arial Bold.ttf" if bold else "/System/Library/Fonts/Supplemental/Arial.ttf",
+        "/System/Library/Fonts/Supplemental/Times New Roman Bold.ttf" if bold else "/System/Library/Fonts/Supplemental/Times New Roman.ttf",
+    ]
+    for candidate in font_candidates:
+        try:
+            return ImageFont.truetype(candidate, size=size)
+        except Exception:
+            continue
+    return ImageFont.load_default()
+
+
+def generate_architecture_diagram() -> Path:
+    width, height = 1800, 1220
+    image = PILImage.new("RGB", (width, height), "#f4f7fb")
+    draw = ImageDraw.Draw(image)
+
+    title_font = load_font(42, bold=True)
+    subtitle_font = load_font(22, bold=False)
+    box_title_font = load_font(24, bold=True)
+    text_font = load_font(19, bold=False)
+    small_font = load_font(17, bold=False)
+
+    def rounded_box(x1, y1, x2, y2, fill, outline, title, lines):
+        draw.rounded_rectangle((x1, y1, x2, y2), radius=24, fill=fill, outline=outline, width=3)
+        draw.text((x1 + 24, y1 + 18), title, font=box_title_font, fill="#18324f")
+        y = y1 + 58
+        for line in lines:
+            draw.text((x1 + 24, y), line, font=text_font, fill="#24364a")
+            y += 30
+
+    draw.rounded_rectangle((50, 40, width - 50, height - 45), radius=28, fill="#ffffff", outline="#cad5e2", width=3)
+    draw.text((width / 2 - 380, 85), "SMART LOGISTICS MANAGEMENT SYSTEM", font=title_font, fill="#17304c")
+    draw.text((width / 2 - 255, 140), "Updated MVC Architecture with Actual Current Files", font=subtitle_font, fill="#4d6178")
+
+    rounded_box(
+        110, 220, 1690, 380,
+        "#e8f1ff", "#7da4d6",
+        "VIEW LAYER",
+        [
+            "web/index.html  -  Browser dashboard for shipment management, statistics, and analytics requests",
+            "javafx-frontend/src/main/java/com/smartlogistics/javafx/SmartLogisticsApp.java  -  JavaFX desktop interface",
+        ],
+    )
+    rounded_box(
+        110, 440, 1690, 635,
+        "#eef8ec", "#89b57a",
+        "CONTROLLER LAYER",
+        [
+            "backend/src/main/java/com/smartlogistics/servlet/BaseApiServlet.java",
+            "ShipmentServlet.java  |  ForecastServlet.java  |  AnomalyServlet.java",
+            "backend/src/main/webapp/WEB-INF/web.xml  -  servlet mapping and deployment metadata",
+        ],
+    )
+    rounded_box(
+        110, 700, 820, 1035,
+        "#fff4e3", "#d3a95a",
+        "MODEL + DAO LAYER",
+        [
+            "Shipment.java  -  shipment domain model",
+            "ShipmentDAO.java  -  JDBC CRUD operations",
+            "DBConnection.java  -  schema bootstrap and connection management",
+            "database.sql  -  DDL plus sample shipment dataset",
+        ],
+    )
+    rounded_box(
+        900, 700, 1690, 1035,
+        "#f3ebff", "#a287cf",
+        "SERVICE + ANALYTICS LAYER",
+        [
+            "SmartLogisticsApplication.java  -  Spring Boot startup entry point",
+            "MLService.java  -  Java to Python bridge",
+            "ml/ml_predictor.py  -  demand prediction and anomaly detection logic",
+            "start-project.sh / stop-project.sh  -  execution orchestration",
+        ],
+    )
+
+    def arrow(start, end):
+        draw.line((start, end), fill="#5b7089", width=4)
+        x1, y1 = end
+        draw.polygon([(x1, y1), (x1 - 12, y1 - 18), (x1 + 12, y1 - 18)], fill="#5b7089")
+
+    arrow((900, 380), (900, 438))
+    arrow((465, 635), (465, 698))
+    arrow((1295, 635), (1295, 698))
+    draw.text((945, 398), "HTTP requests / UI actions", font=small_font, fill="#4d6178")
+    draw.text((520, 655), "Data flow", font=small_font, fill="#4d6178")
+    draw.text((1338, 655), "ML integration", font=small_font, fill="#4d6178")
+
+    draw.text((145, 1080), "DATABASE: MySQL smart_logistics schema with shipment records, status history, ETA, carrier, and created timestamp", font=text_font, fill="#24364a")
+    draw.text((145, 1112), "SYSTEM OUTPUTS: Browser dashboard, JavaFX desktop client, forecast endpoint, anomaly endpoint, and PDF submission evidence", font=text_font, fill="#24364a")
+
+    image.save(GENERATED_ARCHITECTURE)
+    return GENERATED_ARCHITECTURE
+
+
 def ensure_architecture_png() -> Path:
+    try:
+        return generate_architecture_diagram()
+    except Exception:
+        pass
+
     if PNG_ARCHITECTURE.exists():
         return PNG_ARCHITECTURE
     try:
@@ -493,6 +606,45 @@ def cover_table() -> Table:
     return table
 
 
+def cover_banner() -> Table:
+    content = [
+        [
+            Paragraph(
+                "<font size='20'><b>SMART LOGISTICS MANAGEMENT SYSTEM</b></font><br/><br/>"
+                "<font size='12'>(SMLOG-JAVA) | Final Review Submission</font><br/><br/>"
+                "<font size='11'>AI-powered demand prediction, anomaly detection, servlet APIs, web dashboard, JavaFX desktop client, and MySQL persistence</font>",
+                ParagraphStyle(
+                    "CoverBanner",
+                    alignment=TA_CENTER,
+                    textColor=colors.white,
+                    leading=17,
+                ),
+            )
+        ]
+    ]
+    table = Table(content, colWidths=[16.0 * cm])
+    table.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#23456d")),
+                ("BOX", (0, 0), (-1, -1), 0, colors.white),
+                ("TOPPADDING", (0, 0), (-1, -1), 22),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 22),
+                ("LEFTPADDING", (0, 0), (-1, -1), 18),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 18),
+            ]
+        )
+    )
+    return table
+
+
+def cover_team_table() -> Table:
+    rows = [["Team Member", "Roll Number", "Major Responsibility"]]
+    for member in TEAM_MEMBERS:
+        rows.append([member["name"], member["roll"], member["responsibility"]])
+    return simple_table(rows, [4.0, 2.9, 9.1], font_size=8.7, header_bg="#e7eef8")
+
+
 def simple_table(rows: list[list[str]], col_widths: list[float], font_size: float = 9.4, header_bg: str = "#edf3fb") -> Table:
     header_style = ParagraphStyle(
         "TableHeader",
@@ -660,7 +812,7 @@ def build_story() -> list:
 
     story = []
 
-    story.append(Spacer(1, 4.0 * cm))
+    story.append(Spacer(1, 1.5 * cm))
     story.append(
         Paragraph(
             "PROGRESS REVIEW 3 / FINAL SUBMISSION",
@@ -672,53 +824,15 @@ def build_story() -> list:
                 alignment=TA_CENTER,
                 textColor=colors.HexColor("#214e7a"),
                 tracking=1.5,
-                spaceAfter=16,
+                spaceAfter=14,
             ),
         )
     )
-    story.append(
-        Paragraph(
-            "SMART LOGISTICS MANAGEMENT SYSTEM",
-            ParagraphStyle(
-                "CoverTitle",
-                fontName="Times-Bold",
-                fontSize=24,
-                leading=31,
-                alignment=TA_CENTER,
-                textColor=colors.HexColor("#18324f"),
-                spaceAfter=10,
-            ),
-        )
-    )
-    story.append(
-        Paragraph(
-            "(SMLOG-JAVA)",
-            ParagraphStyle(
-                "CoverCode",
-                fontName="Helvetica-Bold",
-                fontSize=16,
-                leading=18,
-                alignment=TA_CENTER,
-                textColor=colors.HexColor("#18324f"),
-                spaceAfter=12,
-            ),
-        )
-    )
-    story.append(
-        Paragraph(
-            "Servlet-based shipment tracking platform with MySQL persistence, browser dashboard, JavaFX desktop client, and Python machine learning integration.",
-            ParagraphStyle(
-                "CoverSubtitle",
-                fontName="Times-Roman",
-                fontSize=12,
-                leading=18,
-                alignment=TA_CENTER,
-                textColor=colors.HexColor("#4d6178"),
-                spaceAfter=18,
-            ),
-        )
-    )
+    story.append(cover_banner())
+    story.append(Spacer(1, 0.35 * cm))
     story.append(cover_table())
+    story.append(Spacer(1, 0.2 * cm))
+    story.append(cover_team_table())
     story.append(Spacer(1, 0.5 * cm))
     story.append(
         Paragraph(
@@ -728,7 +842,7 @@ def build_story() -> list:
     )
     story.append(
         Paragraph(
-            "This submission professionally consolidates the final project state using the earlier review style, updated Review 3 status, richer content structure, execution evidence, detailed team contribution portfolios, public repository access, and a full source-code appendix.",
+            "This submission professionally consolidates the final project state using the original Review 3 template content, updated execution evidence, improved architecture presentation, detailed team contribution portfolios, new JavaFX output screens, public repository access, and a full source-code appendix.",
             styles["Body"],
         )
     )
@@ -737,13 +851,13 @@ def build_story() -> list:
     story.append(Paragraph("Project Overview", styles["SectionTitle"]))
     story.append(
         Paragraph(
-            "Smart Logistics Management System is a multi-layer Java project designed to manage shipments, expose servlet-backed APIs, persist logistics data in MySQL, offer both browser and JavaFX interfaces, and provide AI-assisted forecasting and anomaly detection through Python integration.",
+            "Smart Logistics Management System is a full-stack logistics tracking application designed to manage shipment records, monitor shipment status, and provide AI-assisted operational insights. The project combines a Java backend, MySQL persistence, a browser dashboard built with HTML/CSS/JavaScript, a JavaFX desktop interface, and a Python analytics module.",
             styles["Body"],
         )
     )
     story.append(
         Paragraph(
-            "The current submission is a continuation of the earlier Progress Review 1 and 2 document. In this final version, the project has been organized as a complete working system with demonstrable CRUD operations, analytics endpoints, integrated frontends, and a documented appendix containing the real project code submitted for evaluation.",
+            "The original project document described the final goal as a system with AI-powered demand prediction and anomaly detection. This revised submission preserves that academic framing while aligning the report with the actual current codebase, live screenshots, owned team contributions, and the public GitHub repository.",
             styles["Body"],
         )
     )
@@ -765,6 +879,19 @@ def build_story() -> list:
         "Provide a JavaFX desktop application that consumes the same backend services.",
         "Integrate a Python analytics layer for demand prediction and delayed-shipment anomaly detection.",
         "Deliver a professional, evidence-backed submission with screenshots, team contributions, and source-code appendix.",
+    ]:
+        story.append(Paragraph(f"• {item}", styles["Body"]))
+    story.append(Paragraph("AI Specification From Original Project Document", styles["SubHeading"]))
+    for item in [
+        "Demand prediction takes the current shipment count as input and estimates next-week volume with growth percentage and confidence score.",
+        "Anomaly detection takes shipment records as input and flags delayed shipments as high-priority exceptions requiring operational attention.",
+        "The Java-Python bridge demonstrates a practical integration pattern where backend services can invoke analytics logic and return structured JSON to multiple user interfaces.",
+    ]:
+        story.append(Paragraph(f"• {item}", styles["Body"]))
+    story.append(Paragraph("Stored Shipment Attributes", styles["SubHeading"]))
+    for item in [
+        "Shipment ID, origin, destination, cargo type, weight, status, ETA, carrier, and created timestamp are stored in the MySQL database.",
+        "These attributes support shipment tracking, dashboard statistics, machine learning input generation, and final review evidence.",
     ]:
         story.append(Paragraph(f"• {item}", styles["Body"]))
     story.append(Paragraph("Technology Stack", styles["SubHeading"]))
@@ -824,7 +951,7 @@ def build_story() -> list:
 
     story.append(Paragraph("Architecture and Modules", styles["SectionTitle"]))
     story.append(image_flowable(architecture_png, max_width_cm=16.5, max_height_cm=12.5))
-    story.append(Paragraph("Figure 1. MVC architecture with the major files grouped by responsibility.", styles["Caption"]))
+    story.append(Paragraph("Figure 1. Refined MVC architecture rebuilt from the current submitted codebase.", styles["Caption"]))
     story.append(Paragraph("Architecture Explanation", styles["SubHeading"]))
     for item in [
         "<b>View Layer:</b> <font face='Courier'>web/index.html</font> provides the browser dashboard, while <font face='Courier'>SmartLogisticsApp.java</font> provides the desktop GUI.",
@@ -859,6 +986,13 @@ def build_story() -> list:
     for title, description in module_text:
         story.append(Paragraph(title, styles["SubHeading"]))
         story.append(Paragraph(description, styles["Body"]))
+    story.append(Paragraph("Original Document Alignment", styles["SubHeading"]))
+    story.append(
+        Paragraph(
+            "The earlier DOCX submission described the same five major modules: shipment management, web dashboard, JavaFX desktop module, AI and analytics module, and database module. This revised report retains that structure but updates the architecture and file mappings to match the actual submitted project.",
+            styles["Body"],
+        )
+    )
     story.append(PageBreak())
 
     story.append(Paragraph("Operational Data and System Evidence", styles["SectionTitle"]))
