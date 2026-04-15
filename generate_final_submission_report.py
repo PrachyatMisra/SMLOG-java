@@ -494,15 +494,30 @@ def cover_table() -> Table:
 
 
 def simple_table(rows: list[list[str]], col_widths: list[float], font_size: float = 9.4, header_bg: str = "#edf3fb") -> Table:
-    table = Table(rows, colWidths=[width * cm for width in col_widths], repeatRows=1)
+    header_style = ParagraphStyle(
+        "TableHeader",
+        fontName="Helvetica-Bold",
+        fontSize=font_size,
+        leading=max(11, font_size + 3),
+        textColor=colors.HexColor("#1d2f45"),
+    )
+    body_style = ParagraphStyle(
+        "TableBody",
+        fontName="Helvetica",
+        fontSize=font_size,
+        leading=max(11, font_size + 3),
+        textColor=colors.HexColor("#1f2f41"),
+    )
+    wrapped_rows = []
+    for row_index, row in enumerate(rows):
+        style = header_style if row_index == 0 else body_style
+        wrapped_rows.append([Paragraph(html.escape(str(cell)), style) for cell in row])
+
+    table = Table(wrapped_rows, colWidths=[width * cm for width in col_widths], repeatRows=1)
     table.setStyle(
         TableStyle(
             [
                 ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor(header_bg)),
-                ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
-                ("FONTNAME", (0, 1), (-1, -1), "Helvetica"),
-                ("FONTSIZE", (0, 0), (-1, -1), font_size),
-                ("LEADING", (0, 0), (-1, -1), max(11, font_size + 3)),
                 ("BOX", (0, 0), (-1, -1), 0.6, colors.HexColor("#cad5e2")),
                 ("INNERGRID", (0, 0), (-1, -1), 0.4, colors.HexColor("#d4deea")),
                 ("VALIGN", (0, 0), (-1, -1), "TOP"),
@@ -1055,6 +1070,7 @@ def add_docx_code(document: Document, code: str):
 
 def build_docx() -> None:
     document = Document()
+    repo_url = get_repo_url()
     section = document.sections[0]
     section.top_margin = Inches(0.7)
     section.bottom_margin = Inches(0.65)
@@ -1075,6 +1091,7 @@ def build_docx() -> None:
         "Servlet-based shipment tracking platform with MySQL persistence, browser dashboard, JavaFX desktop client, and Python machine learning integration.",
         center=True,
     )
+    add_docx_paragraph(document, f"Public GitHub Repository: {repo_url or 'Repository link pending publication'}", center=True, font_size=10)
     table = document.add_table(rows=1, cols=2)
     table.alignment = WD_TABLE_ALIGNMENT.CENTER
     hdr = table.rows[0].cells
@@ -1106,6 +1123,12 @@ def build_docx() -> None:
         row[0].text = member["name"]
         row[1].text = member["roll"]
         row[2].text = member["responsibility"]
+    add_docx_paragraph(document, f"Public Repository Access for Evaluation: {repo_url or 'Repository link pending publication'}", font_size=10)
+
+    for portfolio in TEAM_PORTFOLIOS:
+        add_docx_heading(document, f"{portfolio['name']} - Contribution Portfolio", level=2)
+        add_docx_paragraph(document, portfolio["summary"])
+        add_docx_paragraph(document, f"Owned files: {', '.join(portfolio['files'])}", font_size=10)
 
     add_docx_heading(document, "Architecture", level=1, center=True)
     architecture_png = ensure_architecture_png()
