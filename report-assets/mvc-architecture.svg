@@ -1,0 +1,93 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f7fbff"/>
+      <stop offset="100%" stop-color="#eef4ff"/>
+    </linearGradient>
+    <linearGradient id="viewBoxFill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#dff7ef"/>
+      <stop offset="100%" stop-color="#c8efe1"/>
+    </linearGradient>
+    <linearGradient id="controllerBoxFill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e1e8ff"/>
+      <stop offset="100%" stop-color="#d3ddff"/>
+    </linearGradient>
+    <linearGradient id="modelBoxFill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff3d7"/>
+      <stop offset="100%" stop-color="#ffe7b0"/>
+    </linearGradient>
+    <linearGradient id="serviceBoxFill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f3e6ff"/>
+      <stop offset="100%" stop-color="#ead7ff"/>
+    </linearGradient>
+    <linearGradient id="integrationBoxFill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffe4e6"/>
+      <stop offset="100%" stop-color="#ffd2d7"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#9aa4b2" flood-opacity="0.18"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto-start-reverse">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#52637a"/>
+    </marker>
+    <style>
+      .title { font: 700 32px 'Arial', sans-serif; fill: #1e2f45; }
+      .subtitle { font: 600 18px 'Arial', sans-serif; fill: #43556d; }
+      .box-title { font: 700 24px 'Arial', sans-serif; fill: #163047; }
+      .box-subtitle { font: 700 16px 'Arial', sans-serif; fill: #29445d; }
+      .line { font: 500 15px 'Arial', sans-serif; fill: #23374d; }
+      .connector { stroke: #52637a; stroke-width: 3.5; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="900" fill="url(#bg)"/>
+
+  <text x="600" y="58" text-anchor="middle" class="title">Smart Logistics Management System</text>
+  <text x="600" y="88" text-anchor="middle" class="subtitle">MVC Architecture with Key File Names</text>
+
+  <rect x="120" y="130" rx="28" ry="28" width="960" height="150" fill="url(#viewBoxFill)" stroke="#5ea78e" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="600" y="170" text-anchor="middle" class="box-title">VIEW LAYER</text>
+  <text x="180" y="208" class="box-subtitle">Browser Frontend</text>
+  <text x="180" y="235" class="line">web/index.html</text>
+  <text x="180" y="258" class="line">start-project.sh</text>
+  <text x="520" y="208" class="box-subtitle">Desktop Frontend</text>
+  <text x="520" y="235" class="line">javafx-frontend/src/main/java/com/</text>
+  <text x="520" y="258" class="line">smartlogistics/javafx/SmartLogisticsApp.java</text>
+
+  <rect x="120" y="340" rx="28" ry="28" width="960" height="150" fill="url(#controllerBoxFill)" stroke="#6279c4" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="600" y="380" text-anchor="middle" class="box-title">CONTROLLER LAYER</text>
+  <text x="180" y="418" class="box-subtitle">Java Servlets</text>
+  <text x="180" y="445" class="line">backend/src/main/java/com/smartlogistics/servlet/</text>
+  <text x="180" y="468" class="line">BaseApiServlet.java, ShipmentServlet.java</text>
+  <text x="180" y="491" class="line">ForecastServlet.java, AnomalyServlet.java</text>
+  <text x="660" y="418" class="box-subtitle">Servlet Mapping</text>
+  <text x="660" y="445" class="line">backend/src/main/webapp/WEB-INF/web.xml</text>
+
+  <rect x="120" y="550" rx="28" ry="28" width="470" height="190" fill="url(#modelBoxFill)" stroke="#c7a24b" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="355" y="590" text-anchor="middle" class="box-title">MODEL + DAO LAYER</text>
+  <text x="165" y="628" class="box-subtitle">Domain Model</text>
+  <text x="165" y="655" class="line">backend/src/main/java/com/smartlogistics/model/</text>
+  <text x="165" y="678" class="line">Shipment.java</text>
+  <text x="165" y="712" class="box-subtitle">DAO + JDBC</text>
+  <text x="165" y="739" class="line">ShipmentDAO.java</text>
+  <text x="165" y="762" class="line">DBConnection.java</text>
+
+  <rect x="610" y="550" rx="28" ry="28" width="470" height="190" fill="url(#serviceBoxFill)" stroke="#9d6bca" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="845" y="590" text-anchor="middle" class="box-title">SERVICE + APP LAYER</text>
+  <text x="655" y="628" class="box-subtitle">Application Bootstrap</text>
+  <text x="655" y="655" class="line">backend/src/main/java/com/smartlogistics/</text>
+  <text x="655" y="678" class="line">SmartLogisticsApplication.java</text>
+  <text x="655" y="712" class="box-subtitle">ML Bridge</text>
+  <text x="655" y="739" class="line">backend/src/main/java/com/smartlogistics/ml/</text>
+  <text x="655" y="762" class="line">MLService.java</text>
+
+  <rect x="250" y="770" rx="28" ry="28" width="700" height="90" fill="url(#integrationBoxFill)" stroke="#d67a89" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="600" y="808" text-anchor="middle" class="box-title">DATABASE + EXTERNAL INTEGRATION</text>
+  <text x="600" y="836" text-anchor="middle" class="line">MySQL database: smart_logistics | backend/src/main/resources/database.sql | ml/ml_predictor.py</text>
+
+  <path d="M600 280 L600 330" class="connector"/>
+  <path d="M430 490 L430 540" class="connector"/>
+  <path d="M770 490 L770 540" class="connector"/>
+  <path d="M430 740 L430 760" class="connector"/>
+  <path d="M770 740 L770 760" class="connector"/>
+</svg>

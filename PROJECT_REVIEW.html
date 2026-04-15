@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progress Review 1 &amp; 2 - SMLOG-JAVA</title>
+  <style>
+@page {
+  size: A4;
+  margin: 14mm 13mm 16mm;
+}
+:root {
+  --ink: #1e2f45;
+  --muted: #4b5f76;
+  --line: #d5dee9;
+  --soft: #f4f7fb;
+  --accent: #214e7a;
+}
+* { box-sizing: border-box; }
+html { background: #e9eef5; }
+body {
+  margin: 0;
+  padding: 24px 0;
+  background: #e9eef5;
+  color: var(--ink);
+  font-family: Georgia, 'Times New Roman', serif;
+}
+.report {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto;
+  background: #ffffff;
+  box-shadow: 0 14px 40px rgba(20, 41, 66, 0.14);
+  padding: 0 18mm 16mm;
+}
+.cover-page {
+  min-height: 267mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14mm 0;
+}
+.cover-frame {
+  width: 100%;
+  border: 2.2px solid #213f61;
+  padding: 24mm 16mm;
+  text-align: center;
+}
+.cover-kicker {
+  font-size: 16px;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 22px;
+}
+.cover-frame h1 {
+  font-size: 32px;
+  line-height: 1.25;
+  margin: 0;
+  letter-spacing: 0.03em;
+}
+.cover-code {
+  font-size: 22px;
+  margin-top: 10px;
+  font-weight: 700;
+}
+.cover-subtitle {
+  margin: 22px auto 28px;
+  max-width: 640px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--muted);
+  text-align: center;
+}
+.cover-box {
+  display: inline-block;
+  padding: 18px 24px;
+  border: 1px solid var(--line);
+  background: #f8fbff;
+  text-align: left;
+  font-size: 15px;
+  line-height: 1.8;
+}
+.page-break {
+  break-before: page;
+  page-break-before: always;
+  height: 0;
+}
+h2 {
+  text-align: center;
+  font-size: 26px;
+  margin: 0 0 18px;
+  padding-top: 16mm;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #dce5f0;
+  color: #16324f;
+}
+h3 {
+  font-size: 21px;
+  margin: 18px 0 12px;
+  color: #21456d;
+}
+h4 {
+  font-size: 16px;
+  margin: 14px 0 8px;
+  color: #23415d;
+}
+p, li, td, th {
+  font-size: 14px;
+  line-height: 1.75;
+}
+p { text-align: justify; }
+ul, ol { margin: 10px 0 16px 24px; }
+strong { color: #16324f; }
+a { color: inherit; text-decoration: none; }
+img {
+  display: block;
+  width: 100%;
+  max-width: 760px;
+  margin: 14px auto 10px;
+  border: 1px solid #ccd7e5;
+  box-shadow: 0 8px 20px rgba(34, 53, 78, 0.12);
+}
+em {
+  display: block;
+  margin: 0 0 14px;
+  text-align: center;
+  color: #5b6b7f;
+  font-size: 12px;
+}
+pre {
+  margin: 12px 0 18px;
+  padding: 14px 16px;
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-left: 4px solid #7b9bbd;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+code {
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-size: 11px;
+  line-height: 1.5;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0 18px;
+}
+th, td {
+  border: 1px solid #cfd9e5;
+  padding: 9px 10px;
+  vertical-align: top;
+}
+th {
+  background: #edf3fb;
+}
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 18px 0;
+}
+@media print {
+  html, body { background: #ffffff; padding: 0; }
+  .report { box-shadow: none; margin: 0; width: auto; min-height: auto; }
+  a { text-decoration: none; }
+  img, pre, table { break-inside: avoid; page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+  <main class="report">
+    <div class="cover-page">
+  <div class="cover-frame">
+    <div class="cover-kicker">PROGRESS REVIEW 1 &amp; 2</div>
+    <h1>SMART LOGISTICS MANAGEMENT SYSTEM</h1>
+    <div class="cover-code">(SMLOG-JAVA)</div>
+    <p class="cover-subtitle">Servlet-based shipment tracking platform with MySQL persistence, browser dashboard, JavaFX desktop client, and Python ML integration.</p>
+
+    <div class="cover-box">
+      <div><strong>Report Type:</strong> Progress Review Report</div>
+      <div><strong>Prepared For:</strong> Review 1 and Review 2 submission requirement</div>
+      <div><strong>Implementation Stage:</strong> More than 60% of the project completed</div>
+      <div><strong>Date:</strong> 25 March 2026</div>
+    </div>
+  </div>
+</div>
+
+<div class="page-break"></div>
+
+<h2>Title</h2>
+<p><strong>Smart Logistics Management System (SMLOG-JAVA)</strong></p>
+<h2>Project Description</h2>
+<p>Smart Logistics Management System is a Java-based logistics tracking project developed to manage shipment records, expose servlet endpoints, connect with a MySQL back-end database, provide a browser-based interface, and run a JavaFX desktop client from the same data source. The project also integrates a Python machine learning script to predict future shipment demand and detect delayed shipment anomalies.</p>
+<p>The implementation prepared for this review demonstrates the core project foundation expected in Progress Review 1 and 2. The application now runs end to end with live CRUD operations, servlet mapping, JDBC-based database access, real-time UI refresh on the HTML dashboard, and a working JavaFX front end.</p>
+<h3>Objectives of the Project</h3>
+<ul>
+<li>Build a shipment management system using Java and the MVC pattern.</li>
+<li>Use Java Servlets as the controller layer for CRUD and analytics endpoints.</li>
+<li>Use MySQL as the persistent back-end database.</li>
+<li>Provide a browser interface using HTML, CSS, and JavaScript.</li>
+<li>Provide a second front end using JavaFX.</li>
+<li>Integrate Python-based ML logic for demand forecasting and anomaly detection.</li>
+</ul>
+<h3>Major Technologies Used</h3>
+<ul>
+<li>Java 17</li>
+<li>Spring Boot embedded Tomcat runtime</li>
+<li>Jakarta Servlet API</li>
+<li>MySQL with JDBC</li>
+<li>HTML, CSS, and Vanilla JavaScript</li>
+<li>JavaFX</li>
+<li>Python 3 for machine learning support</li>
+</ul>
+<div class="page-break"></div>
+
+<h2>Project Architecture Diagram as MVC with All the File Names in the Layers</h2>
+<p><img alt="MVC Architecture Diagram" src="report-assets/mvc-architecture.svg" /></p>
+<h3>Architecture Explanation</h3>
+<ul>
+<li><strong>View Layer:</strong> <a href="/Users/sudhanshu/Downloads/SMLOG-java/web/index.html">web/index.html</a> provides the browser dashboard, while <a href="/Users/sudhanshu/Downloads/SMLOG-java/javafx-frontend/src/main/java/com/smartlogistics/javafx/SmartLogisticsApp.java">SmartLogisticsApp.java</a> provides the desktop interface.</li>
+<li><strong>Controller Layer:</strong> <a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/servlet/ShipmentServlet.java">ShipmentServlet.java</a>, <a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/servlet/ForecastServlet.java">ForecastServlet.java</a>, and <a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/servlet/AnomalyServlet.java">AnomalyServlet.java</a> receive client requests and return JSON responses.</li>
+<li><strong>Model Layer:</strong> <a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/model/Shipment.java">Shipment.java</a>, <a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/dao/ShipmentDAO.java">ShipmentDAO.java</a>, and <a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/dao/DBConnection.java">DBConnection.java</a> manage data and database communication.</li>
+<li><strong>Service and Integration Layer:</strong> <a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/ml/MLService.java">MLService.java</a>, <a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/SmartLogisticsApplication.java">SmartLogisticsApplication.java</a>, <a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/webapp/WEB-INF/web.xml">web.xml</a>, and <code>ml/ml_predictor.py</code> support application startup, servlet registration, and ML execution.</li>
+</ul>
+<div class="page-break"></div>
+
+<h2>Modules Description</h2>
+<h3>Module 1. Servlet Backend Module</h3>
+<p>The servlet backend is the controller core of the project. It receives requests from the browser dashboard and JavaFX application, validates the request path or payload, and then calls the DAO or ML layer before returning structured JSON responses.</p>
+<p><img alt="Module 1 - Shipment Servlet Running in Chrome" src="report-assets/chrome-shipments-live.png" /></p>
+<p><em>Figure 1. Shipment servlet list endpoint running live in the browser.</em></p>
+<h4>Main files used in this module</h4>
+<ul>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/servlet/BaseApiServlet.java">BaseApiServlet.java</a></li>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/servlet/ShipmentServlet.java">ShipmentServlet.java</a></li>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/servlet/ForecastServlet.java">ForecastServlet.java</a></li>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/servlet/AnomalyServlet.java">AnomalyServlet.java</a></li>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/webapp/WEB-INF/web.xml">web.xml</a></li>
+</ul>
+<h4>Functions completed</h4>
+<ul>
+<li>Listing all shipments through <code>GET /api/shipments</code></li>
+<li>Fetching one shipment by ID through <code>GET /api/shipments/{id}</code></li>
+<li>Creating a shipment through <code>POST /api/shipments</code></li>
+<li>Updating a shipment through <code>PUT /api/shipments/{id}</code></li>
+<li>Deleting a shipment through <code>DELETE /api/shipments/{id}</code></li>
+<li>Serving ML endpoints through <code>/api/ml/predict</code> and <code>/api/ml/detect-anomalies</code></li>
+</ul>
+<div class="page-break"></div>
+
+<h3>Code Snippet 1. Shipment Servlet</h3>
+<pre><code class="language-java">@WebServlet(name = &quot;ShipmentServlet&quot;, urlPatterns = {&quot;/api/shipments/*&quot;})
+public class ShipmentServlet extends BaseApiServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            String shipmentId = extractShipmentId(request);
+            if (shipmentId == null) {
+                writeJson(response, HttpServletResponse.SC_OK, ShipmentDAO.getAllShipments());
+                return;
+            }
+
+            Shipment shipment = ShipmentDAO.getShipmentById(shipmentId);
+            if (shipment == null) {
+                writeError(response, HttpServletResponse.SC_NOT_FOUND, &quot;Shipment not found: &quot; + shipmentId);
+                return;
+            }
+
+            writeJson(response, HttpServletResponse.SC_OK, shipment);
+        } catch (SQLException e) {
+            writeError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                &quot;Unable to fetch shipment data: &quot; + e.getMessage());
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String shipmentId = extractShipmentId(request);
+        boolean deleted = ShipmentDAO.deleteShipment(shipmentId);
+        writeJson(response, HttpServletResponse.SC_OK, Map.of(
+            &quot;message&quot;, &quot;Shipment deleted successfully&quot;,
+            &quot;id&quot;, shipmentId
+        ));
+    }
+}
+</code></pre>
+<h3>Code Snippet 2. Servlet Mapping in <code>web.xml</code></h3>
+<pre><code class="language-xml">&lt;servlet&gt;
+    &lt;servlet-name&gt;ShipmentServlet&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;com.smartlogistics.servlet.ShipmentServlet&lt;/servlet-class&gt;
+    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+&lt;/servlet&gt;
+&lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;ShipmentServlet&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/api/shipments/*&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;
+
+&lt;servlet&gt;
+    &lt;servlet-name&gt;ForecastServlet&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;com.smartlogistics.servlet.ForecastServlet&lt;/servlet-class&gt;
+&lt;/servlet&gt;
+&lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;ForecastServlet&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/api/ml/predict&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;
+</code></pre>
+<div class="page-break"></div>
+
+<h3>Module 2. Back-End Database Module</h3>
+<p>The database module connects the project to MySQL and performs all CRUD operations using raw JDBC. It also ensures that the <code>smart_logistics</code> database and <code>shipments</code> table exist before the application begins serving data.</p>
+<p><img alt="Module 2 - MySQL Workbench Showing Live Table Data" src="report-assets/workbench-live-text.png" /></p>
+<p><em>Figure 2. MySQL Workbench showing the live <code>shipments</code> table after servlet operations.</em></p>
+<h4>Main files used in this module</h4>
+<ul>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/dao/DBConnection.java">DBConnection.java</a></li>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/dao/ShipmentDAO.java">ShipmentDAO.java</a></li>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/resources/database.sql">database.sql</a></li>
+</ul>
+<h4>Functions completed</h4>
+<ul>
+<li>Creating database and table automatically if not available</li>
+<li>Seeding initial shipment data</li>
+<li>Reading all shipments</li>
+<li>Reading a shipment by ID</li>
+<li>Inserting new shipments</li>
+<li>Updating shipment details</li>
+<li>Deleting shipments from the database</li>
+</ul>
+<div class="page-break"></div>
+
+<h3>Code Snippet 3. Database Initialization</h3>
+<pre><code class="language-java">private static void ensureSchema() throws SQLException {
+    try (Connection conn = DriverManager.getConnection(ROOT_URL, USER, PASSWORD);
+         Statement stmt = conn.createStatement()) {
+        stmt.executeUpdate(&quot;CREATE DATABASE IF NOT EXISTS smart_logistics&quot;);
+    }
+
+    try (Connection conn = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
+         Statement stmt = conn.createStatement()) {
+        stmt.executeUpdate(
+            &quot;CREATE TABLE IF NOT EXISTS shipments (&quot; +
+                &quot;id VARCHAR(20) PRIMARY KEY,&quot; +
+                &quot;origin VARCHAR(100) NOT NULL,&quot; +
+                &quot;destination VARCHAR(100) NOT NULL,&quot; +
+                &quot;cargo VARCHAR(100) NOT NULL,&quot; +
+                &quot;weight DECIMAL(10,2) NOT NULL,&quot; +
+                &quot;status ENUM('Pending','In Transit','Delivered','Delayed') DEFAULT 'Pending',&quot; +
+                &quot;eta VARCHAR(20),&quot; +
+                &quot;carrier VARCHAR(100),&quot; +
+                &quot;created_at VARCHAR(50)&quot; +
+            &quot;)&quot;
+        );
+    }
+}
+</code></pre>
+<h3>Code Snippet 4. JDBC CRUD Logic</h3>
+<pre><code class="language-java">public static boolean updateShipment(String id, Shipment shipment) throws SQLException {
+    String query = &quot;UPDATE shipments SET origin=?, destination=?, cargo=?, weight=?, status=?, eta=?, carrier=? WHERE id=?&quot;;
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+        stmt.setString(1, shipment.getOrigin());
+        stmt.setString(2, shipment.getDestination());
+        stmt.setString(3, shipment.getCargo());
+        stmt.setDouble(4, shipment.getWeight());
+        stmt.setString(5, shipment.getStatus());
+        stmt.setString(6, shipment.getEta());
+        stmt.setString(7, shipment.getCarrier());
+        stmt.setString(8, id);
+        return stmt.executeUpdate() &gt; 0;
+    }
+}
+</code></pre>
+<div class="page-break"></div>
+
+<h3>Module 3. HTML Dashboard Module</h3>
+<p>The HTML dashboard is the browser-based view layer of the project. It loads shipment data from the servlet API, displays live statistics, provides create, update, and delete operations, and calls the analytics endpoints for prediction and anomaly detection.</p>
+<p><img alt="Module 3 - HTML Dashboard Running" src="report-assets/dashboard-crud-before-delete.png" /></p>
+<p><em>Figure 3. Browser dashboard showing servlet-backed shipment cards and statistics.</em></p>
+<h4>Main files used in this module</h4>
+<ul>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/web/index.html">index.html</a></li>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/start-project.sh">start-project.sh</a></li>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/stop-project.sh">stop-project.sh</a></li>
+</ul>
+<h4>Functions completed</h4>
+<ul>
+<li>Displaying shipment cards</li>
+<li>Showing total, in-transit, delivered, and delayed counts</li>
+<li>Adding new shipments from the form</li>
+<li>Editing existing shipments</li>
+<li>Deleting shipments with live refresh</li>
+<li>Calling forecast and anomaly servlet endpoints</li>
+</ul>
+<div class="page-break"></div>
+
+<h3>Code Snippet 5. Dashboard Fetch and Refresh Logic</h3>
+<pre><code class="language-html">&lt;script&gt;
+const API_URL = &quot;http://localhost:8080/api&quot;;
+
+async function loadShipments() {
+    const shipments = await parseJsonResponse(await fetch(`${API_URL}/shipments`));
+    updateStats(shipments);
+    document.getElementById(&quot;shipments&quot;).innerHTML = shipments.map(shipment =&gt; `
+        &lt;div class=&quot;shipment-card&quot;&gt;
+            &lt;div class=&quot;shipment-id&quot;&gt;${escapeHtml(shipment.id)}&lt;/div&gt;
+            &lt;div&gt;&lt;strong&gt;Route:&lt;/strong&gt; ${escapeHtml(shipment.origin)} to ${escapeHtml(shipment.destination)}&lt;/div&gt;
+            &lt;div&gt;&lt;strong&gt;Cargo:&lt;/strong&gt; ${escapeHtml(shipment.cargo)} (${escapeHtml(shipment.weight)} kg)&lt;/div&gt;
+            &lt;button class=&quot;danger&quot; onclick=&quot;deleteShipment('${escapeHtml(shipment.id)}')&quot;&gt;Delete&lt;/button&gt;
+        &lt;/div&gt;
+    `).join(&quot;&quot;);
+}
+
+async function saveShipment() {
+    const endpoint = editingShipmentId ? `${API_URL}/shipments/${editingShipmentId}` : `${API_URL}/shipments`;
+    const method = editingShipmentId ? &quot;PUT&quot; : &quot;POST&quot;;
+    await parseJsonResponse(await fetch(endpoint, {
+        method,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        body: JSON.stringify(shipment)
+    }));
+    await refreshPage();
+}
+&lt;/script&gt;
+</code></pre>
+<div class="page-break"></div>
+
+<h3>Module 4. Machine Learning Integration Module</h3>
+<p>The ML module connects Java with Python. It uses <code>ProcessBuilder</code> to invoke the Python script, receive a JSON result, and return that result through servlet endpoints. This makes the analytics part of the project accessible from both the web dashboard and JavaFX front end.</p>
+<p><img alt="Module 4 - Forecast Servlet Output" src="report-assets/chrome-forecast-live.png" /></p>
+<p><em>Figure 4. Live forecast response returned from the servlet-backed analytics endpoint.</em></p>
+<h4>Main files used in this module</h4>
+<ul>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/ml/MLService.java">MLService.java</a></li>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/servlet/ForecastServlet.java">ForecastServlet.java</a></li>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/servlet/AnomalyServlet.java">AnomalyServlet.java</a></li>
+<li><code>ml/ml_predictor.py</code></li>
+</ul>
+<h4>Functions completed</h4>
+<ul>
+<li>Calling the Python prediction script from Java</li>
+<li>Passing shipment count for demand prediction</li>
+<li>Passing shipment list for anomaly detection</li>
+<li>Returning JSON back to the servlet layer</li>
+<li>Displaying prediction and anomaly results in the front ends</li>
+</ul>
+<div class="page-break"></div>
+
+<h3>Code Snippet 6. Java to Python ML Bridge</h3>
+<pre><code class="language-java">public static Map&lt;String, Object&gt; predictDemand(int shipmentCount) {
+    try {
+        ProcessBuilder pb = new ProcessBuilder(
+            &quot;python3&quot;, resolveScriptPath().toString(), &quot;predict&quot;, String.valueOf(shipmentCount)
+        );
+        pb.redirectErrorStream(true);
+        Process process = pb.start();
+
+        String result = readProcessOutput(process);
+        int exitCode = process.waitFor();
+        if (exitCode != 0) {
+            return Map.of(&quot;error&quot;, &quot;ML Service exited with code &quot; + exitCode + &quot;: &quot; + result);
+        }
+
+        return gson.fromJson(result, Map.class);
+    } catch (Exception e) {
+        return Map.of(&quot;error&quot;, &quot;ML Service failed: &quot; + e.getMessage());
+    }
+}
+</code></pre>
+<h3>Code Snippet 7. Forecast Servlet</h3>
+<pre><code class="language-java">@WebServlet(name = &quot;ForecastServlet&quot;, urlPatterns = {&quot;/api/ml/predict&quot;})
+public class ForecastServlet extends BaseApiServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            List&lt;Shipment&gt; shipments = ShipmentDAO.getAllShipments();
+            Map&lt;String, Object&gt; prediction = MLService.predictDemand(shipments.size());
+            writeJson(response, HttpServletResponse.SC_OK, prediction);
+        } catch (SQLException e) {
+            writeError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                &quot;Unable to generate forecast: &quot; + e.getMessage());
+        }
+    }
+}
+</code></pre>
+<div class="page-break"></div>
+
+<h3>Module 5. JavaFX Desktop Frontend Module</h3>
+<p>The JavaFX module acts as a desktop version of the project. It consumes the same servlet endpoints and allows the user to load shipment data, run demand prediction, and detect anomalies in a standalone Java application.</p>
+<p><img alt="Module 5 - JavaFX Frontend Running" src="report-assets/javafx-running.png" /></p>
+<p><em>Figure 5. JavaFX desktop client connected to the same servlet backend.</em></p>
+<h4>Main files used in this module</h4>
+<ul>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/javafx-frontend/src/main/java/com/smartlogistics/javafx/SmartLogisticsApp.java">SmartLogisticsApp.java</a></li>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/javafx-frontend/pom.xml">pom.xml</a></li>
+</ul>
+<h4>Functions completed</h4>
+<ul>
+<li>Loading all shipments from the backend API</li>
+<li>Showing formatted shipment details in the desktop window</li>
+<li>Running demand prediction from the same backend</li>
+<li>Running anomaly detection from the same backend</li>
+<li>Refreshing data without restarting the application</li>
+</ul>
+<div class="page-break"></div>
+
+<h3>Code Snippet 8. JavaFX API Consumption</h3>
+<pre><code class="language-java">private void loadShipments() {
+    new Thread(() -&gt; {
+        try {
+            updateStatus(&quot;Loading shipments...&quot;);
+            String response = callAPI(&quot;/shipments&quot;);
+            JSONArray shipments = new JSONArray(response);
+
+            StringBuilder output = new StringBuilder();
+            output.append(&quot;=== ALL SHIPMENTS ===\n\n&quot;);
+            for (int i = 0; i &lt; shipments.length(); i++) {
+                JSONObject ship = shipments.getJSONObject(i);
+                output.append(String.format(
+                    &quot;ID: %s\nOrigin: %s → Destination: %s\nCargo: %s (%s kg)\nStatus: %s\nETA: %s\nCarrier: %s\n\n&quot;,
+                    ship.getString(&quot;id&quot;),
+                    ship.getString(&quot;origin&quot;),
+                    ship.getString(&quot;destination&quot;),
+                    ship.getString(&quot;cargo&quot;),
+                    ship.getDouble(&quot;weight&quot;),
+                    ship.getString(&quot;status&quot;),
+                    ship.getString(&quot;eta&quot;),
+                    ship.getString(&quot;carrier&quot;)
+                ));
+            }
+            displayArea.setText(output.toString());
+            updateStatus(&quot;✓ Loaded &quot; + shipments.length() + &quot; shipments&quot;);
+        } catch (Exception e) {
+            displayArea.setText(&quot;Error loading shipments: &quot; + e.getMessage());
+        }
+    }).start();
+}
+</code></pre>
+<div class="page-break"></div>
+
+<h2>Modules Completed</h2>
+<p>The following modules are completed and demonstrated as part of this review:</p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Main Outcome</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Servlet Backend</td>
+<td>Shipment CRUD and analytics endpoints are working</td>
+<td>Completed</td>
+</tr>
+<tr>
+<td>Database Module</td>
+<td>MySQL schema, table access, and live updates are working</td>
+<td>Completed</td>
+</tr>
+<tr>
+<td>HTML Dashboard</td>
+<td>Browser UI with create, update, delete, stats, and analytics</td>
+<td>Completed</td>
+</tr>
+<tr>
+<td>ML Module</td>
+<td>Forecast and anomaly detection integrated through Python</td>
+<td>Completed</td>
+</tr>
+<tr>
+<td>JavaFX Frontend</td>
+<td>Desktop client connected to the same backend</td>
+<td>Completed</td>
+</tr>
+</tbody>
+</table>
+<h3>Submission Checklist for Review Requirement</h3>
+<h4>JavaFX Code</h4>
+<ul>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/javafx-frontend/src/main/java/com/smartlogistics/javafx/SmartLogisticsApp.java">SmartLogisticsApp.java</a></li>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/javafx-frontend/pom.xml">javafx-frontend/pom.xml</a></li>
+</ul>
+<h4>Servlet Code</h4>
+<ul>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/servlet/BaseApiServlet.java">BaseApiServlet.java</a></li>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/servlet/ShipmentServlet.java">ShipmentServlet.java</a></li>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/servlet/ForecastServlet.java">ForecastServlet.java</a></li>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/servlet/AnomalyServlet.java">AnomalyServlet.java</a></li>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/webapp/WEB-INF/web.xml">web.xml</a></li>
+</ul>
+<h4>Back-End DB Files</h4>
+<ul>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/dao/DBConnection.java">DBConnection.java</a></li>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/java/com/smartlogistics/dao/ShipmentDAO.java">ShipmentDAO.java</a></li>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/backend/src/main/resources/database.sql">database.sql</a></li>
+</ul>
+<h4>HTML Files</h4>
+<ul>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/web/index.html">index.html</a></li>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/start-project.sh">start-project.sh</a></li>
+<li><a href="/Users/sudhanshu/Downloads/SMLOG-java/stop-project.sh">stop-project.sh</a></li>
+</ul>
+<div class="page-break"></div>
+
+<h2>Execution Screenshots</h2>
+<h3>1. Dashboard Before Delete</h3>
+<p><img alt="Dashboard Before Delete" src="report-assets/dashboard-crud-before-delete.png" /></p>
+<h3>2. Updated Single Shipment via Servlet</h3>
+<p><img alt="Updated Single Shipment" src="report-assets/chrome-single-live-2001.png" /></p>
+<h3>3. Forecast Endpoint Running</h3>
+<p><img alt="Forecast Endpoint" src="report-assets/chrome-forecast-live.png" /></p>
+<h3>4. Anomaly Endpoint Running</h3>
+<p><img alt="Anomaly Endpoint" src="report-assets/chrome-anomalies-live.png" /></p>
+<h3>5. MySQL Workbench Before Delete</h3>
+<p><img alt="Workbench Before Delete" src="report-assets/workbench-live-text.png" /></p>
+<h3>6. Shipment Servlet List After Delete</h3>
+<p><img alt="Shipments After Delete" src="report-assets/chrome-shipments-after-delete.png" /></p>
+<h3>7. MySQL Workbench After Delete</h3>
+<p><img alt="Workbench After Delete" src="report-assets/workbench-after-delete.png" /></p>
+<h3>8. Dashboard After Delete</h3>
+<p><img alt="Dashboard After Delete" src="report-assets/dashboard-after-delete.png" /></p>
+<h3>9. JavaFX Desktop Frontend Running</h3>
+<p><img alt="JavaFX Running" src="report-assets/javafx-running.png" /></p>
+<div class="page-break"></div>
+
+<h2>Current Status</h2>
+<p>The project is currently in a strong implementation state for Progress Review 1 and 2. More than 60% of the complete project work has been implemented and demonstrated. The servlet backend is running, the MySQL database is updating live, the HTML dashboard is performing add, update, and delete operations, the machine learning endpoints are responding, and the JavaFX desktop application is connected to the same backend.</p>
+<p>The work completed so far satisfies the review requirement for implementation evidence, servlet code submission, JavaFX code submission, back-end database submission, HTML file submission, architecture representation, module explanation, execution screenshots, and current progress reporting.</p>
+<h2>Summary</h2>
+<p>Smart Logistics Management System has been successfully developed as a multi-layer Java application based on the MVC model. The project combines Java Servlets, MySQL, HTML, JavaFX, and Python ML into one working system. During this review stage, the major modules required for shipment management and analytics have been completed and tested with live evidence.</p>
+<p>The report presents the project in the required review format with title, project description, architecture diagram, module descriptions, completed modules, execution screenshots, current status, and summary. Code snippets from the real project files are also included to show the actual implementation used in the system.</p>
+  </main>
+</body>
+</html>

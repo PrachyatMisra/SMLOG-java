@@ -1,0 +1,8 @@
+.DS_Store
+logs/
+run/
+.vite/
+backend/target/
+javafx-frontend/target/
+report-assets/final-report-checks/
+*.class

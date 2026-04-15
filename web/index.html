@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Logistics - Servlet Dashboard</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-start: #5a67d8;
+            --bg-end: #6b46c1;
+            --card-bg: rgba(255, 255, 255, 0.96);
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --success: #16a34a;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --muted: #6b7280;
+            --border: #dbe2f0;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+            min-height: 100vh;
+            padding: 24px;
+            color: #1f2937;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 18px 45px rgba(30, 41, 59, 0.18);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: var(--muted);
+            margin-bottom: 18px;
+        }
+
+        .status-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 14px;
+            border-radius: 999px;
+            background: #eef2ff;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #9ca3af;
+        }
+
+        .status-dot.ok {
+            background: var(--success);
+        }
+
+        .status-dot.warn {
+            background: var(--warning);
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: minmax(320px, 380px) 1fr;
+            gap: 24px;
+        }
+
+        .stack {
+            display: grid;
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 16px 40px rgba(15, 23, 42, 0.16);
+        }
+
+        .card h2 {
+            color: var(--primary);
+            font-size: 1.15rem;
+            margin-bottom: 16px;
+        }
+
+        .card h3 {
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+
+        .subtext {
+            color: var(--muted);
+            font-size: 0.92rem;
+            margin-bottom: 14px;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 6px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 10px 12px;
+            font-size: 0.95rem;
+            background: #fff;
+        }
+
+        input:disabled {
+            background: #eef2ff;
+            color: #475569;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            border-radius: 12px;
+            padding: 11px 16px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+        }
+
+        button.primary {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        button.primary:hover {
+            background: var(--primary-dark);
+        }
+
+        button.success {
+            background: var(--success);
+            color: #fff;
+        }
+
+        button.secondary {
+            background: #64748b;
+            color: #fff;
+        }
+
+        button.warning {
+            background: var(--warning);
+            color: #fff;
+        }
+
+        button.danger {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        .section-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .shipments-grid {
+            display: grid;
+            gap: 14px;
+        }
+
+        .shipment-card {
+            border: 1px solid var(--border);
+            border-left: 5px solid var(--primary);
+            border-radius: 14px;
+            padding: 16px;
+            background: #f8fafc;
+        }
+
+        .shipment-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .shipment-id {
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        .shipment-meta {
+            display: grid;
+            gap: 6px;
+            font-size: 0.92rem;
+            color: #475569;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 10px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .badge-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-in-transit {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .badge-delivered {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-delayed {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .inline-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .analytics-grid,
+        .stats-grid {
+            display: grid;
+            gap: 14px;
+        }
+
+        .analytics-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            margin-top: 10px;
+        }
+
+        .stat-box,
+        .result-box {
+            border-radius: 14px;
+            padding: 16px;
+            border: 1px solid var(--border);
+            background: #f8fafc;
+        }
+
+        .stat-number {
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-top: 6px;
+        }
+
+        .result-box ul {
+            margin-top: 8px;
+            padding-left: 18px;
+        }
+
+        .info-list {
+            display: grid;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .message {
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-size: 0.92rem;
+            margin-bottom: 14px;
+        }
+
+        .message.success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .loading {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        @media (max-width: 980px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .analytics-grid,
+            .stats-grid,
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Smart Logistics Management System</h1>
+            <p>Servlet-powered shipment tracking with MySQL persistence, HTML dashboard, JavaFX client, and Python ML analytics.</p>
+            <div class="status-row">
+                <div class="status-pill"><span id="backendDot" class="status-dot"></span><span id="backendLabel">Backend: Checking</span></div>
+                <div class="status-pill"><span id="databaseDot" class="status-dot"></span><span id="databaseLabel">Database: Checking</span></div>
+                <div class="status-pill"><span id="mlDot" class="status-dot"></span><span id="mlLabel">ML Service: Checking</span></div>
+            </div>
+        </header>
+
+        <div class="dashboard">
+            <div class="stack">
+                <section class="card">
+                    <h2 id="formTitle">Create New Shipment</h2>
+                    <p class="subtext" id="formSubtitle">Use the servlet-backed form to create or update shipments.</p>
+                    <div id="formMessage"></div>
+                    <div class="form-grid">
+                        <div>
+                            <label for="shipmentId">Shipment ID</label>
+                            <input type="text" id="shipmentId" placeholder="e.g. SHP-2001">
+                        </div>
+                        <div class="form-row">
+                            <div>
+                                <label for="origin">Origin</label>
+                                <input type="text" id="origin" placeholder="e.g. Mumbai">
+                            </div>
+                            <div>
+                                <label for="destination">Destination</label>
+                                <input type="text" id="destination" placeholder="e.g. Delhi">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div>
+                                <label for="cargo">Cargo</label>
+                                <input type="text" id="cargo" placeholder="e.g. Electronics">
+                            </div>
+                            <div>
+                                <label for="weight">Weight (kg)</label>
+                                <input type="number" id="weight" step="0.01" placeholder="e.g. 275.50">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div>
+                                <label for="status">Status</label>
+                                <select id="status">
+                                    <option value="Pending">Pending</option>
+                                    <option value="In Transit">In Transit</option>
+                                    <option value="Delivered">Delivered</option>
+                                    <option value="Delayed">Delayed</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="eta">ETA</label>
+                                <input type="text" id="eta" placeholder="e.g. 2026-03-28">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="carrier">Carrier</label>
+                            <input type="text" id="carrier" placeholder="e.g. BlueDart">
+                        </div>
+                        <div class="button-row">
+                            <button class="success" id="saveButton" onclick="saveShipment()">Save Shipment</button>
+                            <button class="secondary" onclick="clearForm()">Clear Form</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>System Information</h2>
+                    <div class="info-list">
+                        <div><strong>Backend:</strong> Spring Boot + Java Servlets on port 8080</div>
+                        <div><strong>Servlet Endpoints:</strong> `/api/shipments/*`, `/api/ml/predict`, `/api/ml/detect-anomalies`</div>
+                        <div><strong>Database:</strong> MySQL `smart_logistics`</div>
+                        <div><strong>Frontend:</strong> HTML, CSS, Vanilla JavaScript</div>
+                        <div><strong>Desktop Client:</strong> JavaFX</div>
+                        <div><strong>ML Engine:</strong> Python 3 script invoked from Java</div>
+                    </div>
+                    <div class="button-row" style="margin-top: 16px;">
+                        <button class="primary" onclick="testBackend()">Test Backend</button>
+                        <button class="warning" onclick="refreshPage()">Refresh All</button>
+                    </div>
+                </section>
+            </div>
+
+            <div class="stack">
+                <section class="card">
+                    <h2>All Shipments</h2>
+                    <div class="section-actions">
+                        <button class="primary" onclick="loadShipments()">Reload Shipments</button>
+                        <button class="warning" onclick="predictDemand()">Run Forecast</button>
+                        <button class="warning" onclick="detectAnomalies()">Run Anomaly Scan</button>
+                    </div>
+                    <div id="shipments" class="shipments-grid">
+                        <div class="loading">Loading shipment data...</div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>Statistics</h2>
+                    <div id="stats" class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-number" id="totalShipments">0</div>
+                            <div class="stat-label">Total Shipments</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number" id="inTransitShipments">0</div>
+                            <div class="stat-label">In Transit</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number" id="deliveredShipments">0</div>
+                            <div class="stat-label">Delivered</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number" id="delayedShipments">0</div>
+                            <div class="stat-label">Delayed</div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>ML Analytics</h2>
+                    <div class="analytics-grid">
+                        <div class="result-box">
+                            <h3>Demand Forecast</h3>
+                            <div id="predictionResult" class="muted">Run forecast to see the next-week shipment estimate.</div>
+                        </div>
+                        <div class="result-box">
+                            <h3>Anomaly Detection</h3>
+                            <div id="anomalyResult" class="muted">Run anomaly scan to check for delayed shipments.</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = "http://localhost:8080/api";
+        let editingShipmentId = null;
+
+        function escapeHtml(value) {
+            return String(value ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
+        async function parseJsonResponse(response) {
+            const text = await response.text();
+            const data = text ? JSON.parse(text) : {};
+            if (!response.ok) {
+                throw new Error(data.error || `Request failed with status ${response.status}`);
+            }
+            return data;
+        }
+
+        function setStatus(target, text, state) {
+            document.getElementById(`${target}Label`).textContent = text;
+            const dot = document.getElementById(`${target}Dot`);
+            dot.classList.remove("ok", "warn");
+            if (state) {
+                dot.classList.add(state);
+            }
+        }
+
+        function showFormMessage(message, type) {
+            const container = document.getElementById("formMessage");
+            if (!message) {
+                container.innerHTML = "";
+                return;
+            }
+            container.innerHTML = `<div class="message ${type}">${escapeHtml(message)}</div>`;
+        }
+
+        function getStatusClass(status) {
+            return `badge-${String(status).toLowerCase().replace(/\s+/g, "-")}`;
+        }
+
+        function updateStats(shipments) {
+            document.getElementById("totalShipments").textContent = shipments.length;
+            document.getElementById("inTransitShipments").textContent = shipments.filter(ship => ship.status === "In Transit").length;
+            document.getElementById("deliveredShipments").textContent = shipments.filter(ship => ship.status === "Delivered").length;
+            document.getElementById("delayedShipments").textContent = shipments.filter(ship => ship.status === "Delayed").length;
+        }
+
+        function populateForm(shipment) {
+            editingShipmentId = shipment.id;
+            document.getElementById("formTitle").textContent = `Edit Shipment ${shipment.id}`;
+            document.getElementById("formSubtitle").textContent = "Update the shipment details and save the servlet-backed record.";
+            document.getElementById("saveButton").textContent = "Update Shipment";
+            document.getElementById("shipmentId").value = shipment.id;
+            document.getElementById("shipmentId").disabled = true;
+            document.getElementById("origin").value = shipment.origin;
+            document.getElementById("destination").value = shipment.destination;
+            document.getElementById("cargo").value = shipment.cargo;
+            document.getElementById("weight").value = shipment.weight;
+            document.getElementById("status").value = shipment.status;
+            document.getElementById("eta").value = shipment.eta || "";
+            document.getElementById("carrier").value = shipment.carrier || "";
+            showFormMessage(`Editing ${shipment.id}. Save to update the record.`, "success");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function clearForm() {
+            editingShipmentId = null;
+            document.getElementById("formTitle").textContent = "Create New Shipment";
+            document.getElementById("formSubtitle").textContent = "Use the servlet-backed form to create or update shipments.";
+            document.getElementById("saveButton").textContent = "Save Shipment";
+            document.getElementById("shipmentId").disabled = false;
+            document.getElementById("shipmentId").value = "";
+            document.getElementById("origin").value = "";
+            document.getElementById("destination").value = "";
+            document.getElementById("cargo").value = "";
+            document.getElementById("weight").value = "";
+            document.getElementById("status").value = "Pending";
+            document.getElementById("eta").value = "";
+            document.getElementById("carrier").value = "";
+            showFormMessage("", "");
+        }
+
+        async function loadShipments() {
+            const container = document.getElementById("shipments");
+            container.innerHTML = `<div class="loading">Loading shipment data...</div>`;
+
+            try {
+                const shipments = await parseJsonResponse(await fetch(`${API_URL}/shipments`));
+                setStatus("backend", "Backend: Running", "ok");
+                setStatus("database", "Database: Connected", "ok");
+
+                if (!shipments.length) {
+                    container.innerHTML = `<div class="message error">No shipments were returned by the servlet backend.</div>`;
+                    updateStats([]);
+                    return;
+                }
+
+                updateStats(shipments);
+                container.innerHTML = shipments.map(shipment => `
+                    <div class="shipment-card">
+                        <div class="shipment-header">
+                            <div class="shipment-id">${escapeHtml(shipment.id)}</div>
+                            <span class="badge ${getStatusClass(shipment.status)}">${escapeHtml(shipment.status)}</span>
+                        </div>
+                        <div class="shipment-meta">
+                            <div><strong>Route:</strong> ${escapeHtml(shipment.origin)} to ${escapeHtml(shipment.destination)}</div>
+                            <div><strong>Cargo:</strong> ${escapeHtml(shipment.cargo)} (${escapeHtml(shipment.weight)} kg)</div>
+                            <div><strong>ETA:</strong> ${escapeHtml(shipment.eta || "Not set")}</div>
+                            <div><strong>Carrier:</strong> ${escapeHtml(shipment.carrier || "Not set")}</div>
+                            <div><strong>Created:</strong> ${escapeHtml(shipment.createdAt || "Not available")}</div>
+                        </div>
+                        <div class="inline-actions">
+                            <button class="primary edit-button" data-id="${escapeHtml(shipment.id)}">Edit</button>
+                            <button class="danger" onclick="deleteShipment('${escapeHtml(shipment.id)}')">Delete</button>
+                        </div>
+                    </div>
+                `).join("");
+
+                const buttons = container.querySelectorAll(".edit-button");
+                buttons.forEach(button => {
+                    const shipment = shipments.find(item => item.id === button.dataset.id);
+                    button.onclick = () => populateForm(shipment);
+                });
+            } catch (error) {
+                setStatus("backend", "Backend: Unavailable", "warn");
+                setStatus("database", "Database: Unavailable", "warn");
+                container.innerHTML = `<div class="message error">${escapeHtml(error.message)}</div>`;
+            }
+        }
+
+        async function saveShipment() {
+            const shipment = {
+                id: document.getElementById("shipmentId").value.trim(),
+                origin: document.getElementById("origin").value.trim(),
+                destination: document.getElementById("destination").value.trim(),
+                cargo: document.getElementById("cargo").value.trim(),
+                weight: Number(document.getElementById("weight").value),
+                status: document.getElementById("status").value,
+                eta: document.getElementById("eta").value.trim(),
+                carrier: document.getElementById("carrier").value.trim(),
+                createdAt: new Date().toISOString().slice(0, 16).replace("T", " ")
+            };
+
+            if (!shipment.id || !shipment.origin || !shipment.destination || !shipment.cargo || !shipment.weight) {
+                showFormMessage("Please complete Shipment ID, Origin, Destination, Cargo, and Weight.", "error");
+                return;
+            }
+
+            const endpoint = editingShipmentId ? `${API_URL}/shipments/${editingShipmentId}` : `${API_URL}/shipments`;
+            const method = editingShipmentId ? "PUT" : "POST";
+
+            try {
+                const saved = await parseJsonResponse(await fetch(endpoint, {
+                    method,
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(shipment)
+                }));
+
+                clearForm();
+                showFormMessage(`${saved.id || shipment.id} saved successfully through the servlet API.`, "success");
+                await refreshPage();
+            } catch (error) {
+                showFormMessage(error.message, "error");
+            }
+        }
+
+        async function deleteShipment(id) {
+            if (!confirm(`Delete shipment ${id}?`)) {
+                return;
+            }
+
+            try {
+                await parseJsonResponse(await fetch(`${API_URL}/shipments/${id}`, {
+                    method: "DELETE"
+                }));
+                if (editingShipmentId === id) {
+                    clearForm();
+                }
+                showFormMessage(`${id} deleted successfully.`, "success");
+                await refreshPage();
+            } catch (error) {
+                showFormMessage(error.message, "error");
+            }
+        }
+
+        async function predictDemand() {
+            const container = document.getElementById("predictionResult");
+            container.innerHTML = `<div class="loading">Running servlet forecast...</div>`;
+
+            try {
+                const data = await parseJsonResponse(await fetch(`${API_URL}/ml/predict`));
+                setStatus("ml", "ML Service: Active", "ok");
+                container.innerHTML = `
+                    <div><strong>Current Shipments:</strong> ${escapeHtml(data.current_count)}</div>
+                    <div><strong>Predicted Next Week:</strong> ${escapeHtml(data.predicted_demand_next_week)}</div>
+                    <div><strong>Growth Rate:</strong> ${escapeHtml(data.growth_percentage)}%</div>
+                    <div><strong>Confidence:</strong> ${(Number(data.confidence) * 100).toFixed(1)}%</div>
+                `;
+            } catch (error) {
+                setStatus("ml", "ML Service: Attention Needed", "warn");
+                container.innerHTML = `<div class="message error">${escapeHtml(error.message)}</div>`;
+            }
+        }
+
+        async function detectAnomalies() {
+            const container = document.getElementById("anomalyResult");
+            container.innerHTML = `<div class="loading">Running servlet anomaly scan...</div>`;
+
+            try {
+                const data = await parseJsonResponse(await fetch(`${API_URL}/ml/detect-anomalies`));
+                setStatus("ml", "ML Service: Active", "ok");
+                const anomalies = data.anomalies || [];
+
+                container.innerHTML = `
+                    <div><strong>Total Anomalies:</strong> ${escapeHtml(data.total_anomalies)}</div>
+                    <div><strong>Anomaly Rate:</strong> ${escapeHtml(data.anomaly_rate_percentage)}%</div>
+                    <div><strong>System Health:</strong> ${escapeHtml(data.system_health)}</div>
+                    ${anomalies.length ? `<ul>${anomalies.map(item => `<li>${escapeHtml(item.id)}: ${escapeHtml(item.recommendation)}</li>`).join("")}</ul>` : `<div style="margin-top: 8px;">No delayed shipments were flagged.</div>`}
+                `;
+            } catch (error) {
+                setStatus("ml", "ML Service: Attention Needed", "warn");
+                container.innerHTML = `<div class="message error">${escapeHtml(error.message)}</div>`;
+            }
+        }
+
+        async function testBackend() {
+            try {
+                const shipments = await parseJsonResponse(await fetch(`${API_URL}/shipments`));
+                alert(`Servlet backend is responding correctly. Shipments returned: ${shipments.length}`);
+            } catch (error) {
+                alert(`Backend check failed: ${error.message}`);
+            }
+        }
+
+        async function refreshPage() {
+            await loadShipments();
+            await Promise.all([predictDemand(), detectAnomalies()]);
+        }
+
+        window.addEventListener("load", refreshPage);
+    </script>
+</body>
+</html>
